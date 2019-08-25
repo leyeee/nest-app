@@ -1,10 +1,15 @@
-import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
+import {
+    CanActivate,
+    ExecutionContext,
+    Inject,
+    Injectable,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { User } from '../modules/user/user.entity';
+import { User } from '../../modules/user/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-    constructor(@Inject(Reflector) private readonly reflector: Reflector){}
+    constructor(@Inject(Reflector) private readonly reflector: Reflector) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         // 通过反射获取请求路由是否添加了 @Roles() 注解，如果没有添加，则代表不需要进行认真

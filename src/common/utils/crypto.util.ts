@@ -3,13 +3,14 @@ import { createHash } from 'crypto';
 
 @Injectable()
 export class CryptoUtil {
-
     /**
      * 加密登录密码
      * @param password
      */
     encryptPassword(password: string): string {
-        return createHash('sha256').update(password).digest('hex');
+        return createHash('sha256')
+            .update(password)
+            .digest('hex');
     }
 
     /**

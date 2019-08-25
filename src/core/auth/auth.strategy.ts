@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthStrategy extends PassportStrategy(Strategy) {
-
     /**
      * 这里的构造函数向父类传递了授权时必要的参数，在实例化时，父类会得知授权是，客户端的请求必须使用 Authorization 作为请求头
      * 而这个请求头的内容前缀也必须为 Bearer， 在解码授权令牌时，使用密钥 secretOrKey: 'secretKey' 来将授权令牌解码为创建令牌时的 payload
@@ -25,7 +25,7 @@ export class AuthStrategy extends PassportStrategy(Strategy) {
      * 当用户存在时， 会将 user 对象添加到 req 中，在之后的 req 对象中，可以使用 req.user 获取当前登录用户
      * @param payload
      */
-    async validate(payload: {account: string}) {
+    async validate(payload: { account: string }) {
         const user = await this.authService.validateUser(payload);
         if (!user) {
             throw new UnauthorizedException();

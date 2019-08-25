@@ -17,7 +17,7 @@ import { PostService } from './post.service';
 import { Post as PoseEntity } from './post.entity';
 import { Result } from 'src/common/interfaces/result.interface';
 import { Roles } from 'src/common/decotators/roles.decorator';
-import { RolesGuard } from 'src/guards/roles.guard';
+import { RolesGuard } from 'src/core/guards/roles.guard';
 
 @Controller('post')
 export class PostController {

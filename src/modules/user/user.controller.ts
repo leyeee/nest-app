@@ -15,7 +15,7 @@ import { Result } from '../../common/interfaces/result.interface';
 import { User } from './user.entity';
 import { Roles } from 'src/common/decotators/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/guards/roles.guard';
+import { RolesGuard } from 'src/core/guards/roles.guard';
 
 @Controller('user')
 export class UserController {
