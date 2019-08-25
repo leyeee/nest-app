@@ -12,7 +12,7 @@ export class RolesGuard implements CanActivate {
     constructor(@Inject(Reflector) private readonly reflector: Reflector) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        // 通过反射获取请求路由是否添加了 @Roles() 注解，如果没有添加，则代表不需要进行认真
+        // 通过反射获取请求路由是否添加了 @Roles() 注解，如果没有添加，则代表不需要进行认证
         const roles = this.reflector.get<string>('roles', context.getHandler());
         if (!roles) {
             return true;

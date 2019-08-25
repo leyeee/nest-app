@@ -1,5 +1,4 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
-import { ManyToOne } from 'typeorm/browser';
+import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm';
 import { User } from '../user/user.entity';
 
 @Entity('post')
