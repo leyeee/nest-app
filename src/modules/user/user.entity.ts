@@ -1,13 +1,18 @@
-import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Post } from '../post/post.entity';
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('user')
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-    @Column()
-    account: string;
+    @Column({ type: 'varchar', length: 50, unique: true })
+    email: string;
 
     @Column()
     password: string;
@@ -15,11 +20,14 @@ export class User {
     @Column()
     name: string;
 
-    @OneToMany(type => Post, post => post.user)
-    posts: Post[];
-
     @Column({
         default: 'regular',
     })
     role: string;
+
+    @CreateDateColumn({ name: 'create_at' })
+    createAt: Date;
+
+    @UpdateDateColumn({ name: 'update_at', nullable: true })
+    updateAt: Date;
 }

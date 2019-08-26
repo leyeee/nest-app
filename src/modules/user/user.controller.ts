@@ -1,21 +1,8 @@
-import {
-    Body,
-    Controller,
-    Inject,
-    Post,
-    Delete,
-    UseGuards,
-    Param,
-    Put,
-    Get,
-} from '@nestjs/common';
-import { AuthService } from '../../core/auth/auth.service';
+import { Controller, Body, Inject, Post, Get } from '@nestjs/common';
+import { AuthService } from 'src/modules/auth/auth.service';
 import { UserService } from './user.service';
-import { Result } from '../../common/interfaces/result.interface';
+import { Result } from 'src/interfaces/Result';
 import { User } from './user.entity';
-import { Roles } from 'src/common/decotators/roles.decorator';
-import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/core/guards/roles.guard';
 
 @Controller('user')
 export class UserController {
@@ -25,14 +12,13 @@ export class UserController {
     ) {}
 
     @Post('login')
-    async login(@Body() body: { account: string; password: string }): Promise<
+    async login(@Body() body: { email: string; password: string }): Promise<
         Result
     > {
-        await this.userService.login(body.account, body.password);
-        const accessToken = await this.authService.createToken({
-            account: body.account,
-        });
+        await this.userService.login(body.email, body.password);
+        const accessToken = await this.authService.createToken(body.email);
         return {
+            error: 0,
             code: 200,
             message: '登录成功',
             data: accessToken,
@@ -43,49 +29,19 @@ export class UserController {
     async register(@Body() user: User): Promise<Result> {
         await this.userService.register(user);
         return {
+            error: 0,
             code: 200,
             message: '注册成功',
         };
     }
 
-    @Delete(':id')
-    @Roles('admin')
-    @UseGuards(AuthGuard(), RolesGuard)
-    async remove(@Param() id: number): Promise<Result> {
-        await this.userService.remove(id);
-        return {
-            code: 200,
-            message: '删除用户成功',
-        };
-    }
-
-    @Put(':id')
-    @Roles('admin')
-    @UseGuards(AuthGuard(), RolesGuard)
-    async update(@Param() id: number, updateInput: User): Promise<Result> {
-        await this.userService.update(id, updateInput);
-        return {
-            code: 200,
-            message: '更新用户成功',
-        };
-    }
-
-    @Get(':id')
-    async findOne(@Param() id: number): Promise<Result> {
-        const data = await this.userService.findOneWithPostsById(id);
-        return {
-            code: 200,
-            message: '查询用户成功',
-            data,
-        };
-    }
-
+    // @Roles('admin')
+    // @UseGuards(AuthGuard(), RolesGuard)
     @Get()
-    @Roles('admin')
-    @UseGuards(AuthGuard(), RolesGuard)
     async findAll(): Promise<Result> {
         const data = await this.userService.findAll();
         return {
+            error: 0,
             code: 200,
             message: '查询所有用户成功',
             data,
