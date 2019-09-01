@@ -9,12 +9,13 @@ import { CryptoUitl } from 'src/utils/crypto';
 
 @Module({
     imports: [
+        // AuthModule,
+        forwardRef(() => AuthModule),
         PassportModule.register({ defaultStrategy: 'jwt' }),
         TypeOrmModule.forFeature([User]),
-        forwardRef(() => AuthModule),
     ],
     providers: [UserService, CryptoUitl],
-    exports: [UserService],
     controllers: [UserController],
+    exports: [UserService],
 })
 export class UserModule {}

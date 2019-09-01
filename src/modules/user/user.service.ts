@@ -3,6 +3,7 @@ import {
     OnModuleInit,
     HttpException,
     Inject,
+    forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -29,6 +30,10 @@ export class UserService implements OnModuleInit {
         await this.userRepo.save(superadmin);
     }
 
+    async findOneById(id: string): Promise<User> {
+        return await this.userRepo.findOne({ id });
+    }
+
     async findOneByEmail(email: string): Promise<User> {
         return await this.userRepo.findOne({ email });
     }
@@ -37,7 +42,7 @@ export class UserService implements OnModuleInit {
         return await this.userRepo.find();
     }
 
-    async login(email: string, password: string): Promise<void> {
+    async login(email: string, password: string): Promise<User> {
         const user = await this.findOneByEmail(email);
         if (!user) {
             throw new HttpException('账号或者密码错误', 406);
@@ -45,6 +50,7 @@ export class UserService implements OnModuleInit {
         if (!this.cryptoUtil.checkPassword(password, user.password)) {
             throw new HttpException('账号或者密码错误', 406);
         }
+        return user;
     }
 
     async register(user: User): Promise<void> {

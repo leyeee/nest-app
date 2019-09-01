@@ -11,7 +11,9 @@ export class AuthService {
     ) {}
 
     async validateUser(payload: { userId: string }): Promise<User> {
-        return await this.userService.findOneByEmail(payload.userId);
+        const user = await this.userService.findOneById(payload.userId);
+        user.password = null;
+        return user;
     }
 
     async createToken(userId: string) {

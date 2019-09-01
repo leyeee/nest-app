@@ -8,7 +8,7 @@ import { JwtStrategy } from './jwt.strategy';
 
 @Module({
     imports: [
-        UserModule,
+        // UserModule,
         PassportModule,
         JwtModule.register({
             secret: jwtConstant.secret,
