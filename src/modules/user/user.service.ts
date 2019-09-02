@@ -35,7 +35,10 @@ export class UserService implements OnModuleInit {
     }
 
     async findOneByEmail(email: string): Promise<User> {
-        return await this.userRepo.findOne({ email });
+        return await this.userRepo.findOne(
+            { email },
+            { select: ['email', 'password', 'id'] },
+        );
     }
 
     async findAll(): Promise<User[]> {
