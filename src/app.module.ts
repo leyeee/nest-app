@@ -5,12 +5,14 @@ import { ErrorsInterceptor } from './interceptors/errors';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 // import { RolesGuard } from './guards/roles';
+import { MockModule } from './mock/mock.module';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(), // 建立 typeorm 与数据库的联系
         UserModule,
         AuthModule,
+        MockModule,
     ],
     providers: [
         {
